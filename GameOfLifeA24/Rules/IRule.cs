@@ -4,5 +4,5 @@ namespace GameOfLifeA24.Rules;
 
 public interface IRule
 {
-  
+    Cell GetNextState(cell Cell, int aliveNeighbirs);
 }
