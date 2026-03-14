@@ -1,0 +1,30 @@
+﻿using DataLayerGameOfLife.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+
+namespace DataLayerGameOfLife;
+
+public class GameOfLifeContext : DbContext
+{
+   
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+   
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        //just create an index
+        modelBuilder.Entity<InitialState>()
+            .HasIndex(s => s.Name)
+            .IsUnique();
+
+        //Example ot help you
+        modelBuilder.Entity<InitialState>().HasData(
+            new InitialState { Id = 1, Name = "Blinker", State = "1,2;2,2;3,2;" },
+            new InitialState { Id = 2, Name = "Block", State = "1,1;1,2;2,1;2,2;" }
+        );
+    }
+}
