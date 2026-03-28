@@ -18,12 +18,21 @@ public class InitialState
     {
         get
         {
-           //Complete to return a list of points (x,y)
+            if (string.IsNullOrEmpty(State))
+                return new List<(int x, int y)>();
+
+            return State
+                .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                .Select(pair =>
+                {
+                    var parts = pair.Split(',');
+                    return (int.Parse(parts[0]), int.Parse(parts[1]));
+                })
+                .ToList();
         }
         set
         {
-            //complete
-            //parse it with x1,y1;x2,y2;x3,y3; eg : "1,2;3,2;5,6;"
+            State = string.Concat(value.Select(v => $"{v.x},{v.y};"));
         }
     }
 }
