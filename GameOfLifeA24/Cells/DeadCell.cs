@@ -16,6 +16,6 @@ internal sealed class DeadCell : Cell
         if (aliveNeighbors == 3)
             return new AliveCell(X, Y);
 
-        return this;
+        return new DeadCell(X, Y);
     }
 }
