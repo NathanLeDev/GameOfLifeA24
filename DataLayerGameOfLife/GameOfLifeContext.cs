@@ -11,9 +11,7 @@ public class GameOfLifeContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(
-            @"Server=(localdb)\mssqllocaldb;Database=GameOfLifeDb;Trusted_Connection=True;"
-        );
+        optionsBuilder.UseSqlite("Data Source=GameOfLife.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
