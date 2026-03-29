@@ -1,4 +1,5 @@
-﻿using GameOfLifeA24;
+﻿using DataLayerGameOfLife.Repositories;
+using GameOfLifeA24;
 using GameOfLifeA24.Rules;
 using Xunit;
 
@@ -11,6 +12,22 @@ public class CoreEngineTests
     {
         var alive = new List<(int x, int y)> { (0, 1), (1, 0), (2, 1) };
         var game = new GameOfLifeA24.GameOfLife(4, 4, new StandardRule(), alive);
+
+        game.Update();
+
+        Assert.True(game.GetCell(1, 1).IsAlive());
+    }
+
+    [Fact]
+    public void HighLifeRule_DeadCell_With_6_Neighbors_Becomes_Alive()
+    {
+        var alive = new List<(int x, int y)>
+    {
+        (0,0), (0,1), (0,2),
+        (1,0),        (1,2),
+        (2,0)
+    };
+        var game = new GameOfLifeA24.GameOfLife(5, 5, new HighLifeRule(), alive);
 
         game.Update();
 
@@ -59,6 +76,14 @@ public class CoreEngineTests
         game.Update();
 
         Assert.False(game.GetCell(1, 1).IsAlive());
+    }
+
+    [Fact]
+    public void RepositoryFactory_Returns_Same_Instance()
+    {
+        var i1 = RepositoryFactory.Instance;
+        var i2 = RepositoryFactory.Instance;
+        Assert.Same(i1, i2);
     }
 
     [Fact]
