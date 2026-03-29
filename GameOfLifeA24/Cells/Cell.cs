@@ -12,5 +12,5 @@ public abstract class Cell
     }
 
     public abstract bool IsAlive();
-
+    public abstract Cell NextState(int aliveNeighbors);
 }

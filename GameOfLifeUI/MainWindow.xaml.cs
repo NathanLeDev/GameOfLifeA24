@@ -41,14 +41,14 @@ public partial class MainWindow : Window
 
     private void LoadData()
     {
-        //COmplete to get the list of all states
+        var states = repo.GetAll();
         InitialStatesCombo.ItemsSource = states;
         InitialStatesCombo.DisplayMemberPath = nameof(InitialState.Name);
     }
 
     private void CreateOrResetGame()
     {
-        //Initialise Game
+        game = new GameOfLife(Rows, Cols, selectedRule, initialAliveCells);
         DrawGameGrid();
     }
 
@@ -83,7 +83,7 @@ public partial class MainWindow : Window
         {
             if (child is not Border b) continue;
             var (x, y) = ((int, int))b.Tag;
-            b.Background = //Check if celle is alive
+            b.Background = game.GetCell(x, y).IsAlive()
                 ? SystemColors.ControlTextBrush
                 : SystemColors.ControlLightBrush;
         }
@@ -114,8 +114,7 @@ public partial class MainWindow : Window
     private void Timer_Tick(object? sender, EventArgs e)
     {
         if (game is null) CreateOrResetGame();
-        //Update game here
-
+        game!.Update();
         DrawGameGrid();
     }
 
@@ -137,7 +136,9 @@ public partial class MainWindow : Window
     {
         if (InitialStatesCombo.SelectedItem is not InitialState state) return;
 
-        initialAliveCells = //Get A list of X, Y point from the state
+        initialAliveCells = state.Values
+            .Select(p => (p.x, p.y))
+            .ToList();
         CreateOrResetGame();
     }
 
@@ -150,7 +151,12 @@ public partial class MainWindow : Window
 
         if (string.IsNullOrWhiteSpace(name)) return;
 
-       //Add new state to the db here
+        var newState = new InitialState { Name = name.Trim() };
+        newState.Values = initialAliveCells
+            .Select(p => (p.X, p.Y))
+            .ToList();
+
+        repo.Add(newState);
 
         LoadData();
         InitialStatesCombo.SelectedItem = repo.Get(name.Trim());
@@ -165,7 +171,7 @@ public partial class MainWindow : Window
                 MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
             return;
 
-        //Delete state from the db
+        repo.Delete(state);
         LoadData();
         if (InitialStatesCombo.Items.Count > 0) InitialStatesCombo.SelectedIndex = 0;
         else ClearState(sender, EventArgs.Empty);
