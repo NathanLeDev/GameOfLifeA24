@@ -9,6 +9,11 @@ public class GameOfLifeContext : DbContext
 {
     public DbSet<InitialState> InitialStates { get; set; }
 
+    public GameOfLifeContext(DbContextOptions<GameOfLifeContext> options)
+    : base(options) { }
+
+    public GameOfLifeContext() { }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite("Data Source=GameOfLife.db");
