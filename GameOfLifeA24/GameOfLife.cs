@@ -10,6 +10,7 @@ public sealed class GameOfLife
 
     public GameOfLife(int rows, int cols, IRule rule, List<(int x, int y)> initialAliveCells)
     {
+        // Create the CellFactory and pass it to the Grid, so that the Grid can create cells without knowing the details of how they are created
         ICellFactory factory = new CellFactory();
 
         _grid = new Grid(rows, cols, initialAliveCells, rule, factory);

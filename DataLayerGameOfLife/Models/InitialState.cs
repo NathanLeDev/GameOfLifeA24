@@ -13,6 +13,7 @@ public class InitialState
     [Required]
     public string State { get; set; } = string.Empty;
 
+    // The database can only store plain text not a List<(int x, int y)> thats why we need to convert in both directions 
     [NotMapped]
     public List<(int x, int y)> Values
     {

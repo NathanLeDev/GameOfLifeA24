@@ -25,6 +25,7 @@ public class GameOfLifeContext : DbContext
             .HasIndex(s => s.Name)
             .IsUnique();
 
+        // those data are default in the database
         modelBuilder.Entity<InitialState>().HasData(
             new InitialState { Id = 1, Name = "Blinker", State = "1,2;2,2;3,2;" },
             new InitialState { Id = 2, Name = "Block", State = "1,1;1,2;2,1;2,2;" }

@@ -23,6 +23,7 @@ public class DataLayerTests
         using var connection = new SqliteConnection("Data Source=:memory:");
         connection.Open();
 
+        // SQlite database connection
         var options = new DbContextOptionsBuilder<GameOfLifeContext>()
             .UseSqlite(connection)
             .Options;

@@ -40,7 +40,7 @@ internal sealed class Grid
 
     public void UpdateGrid()
     {
-        // Computation of every cell's next state based on the current grid, without modifying it
+        // Computation of every cells next state based on the current grid, without modifying it
         Cell[,] newCells = new Cell[_rows, _columns];
 
         for (int x = 0; x < _rows; x++)
